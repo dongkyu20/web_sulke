@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>소프트웨어공학</title>
+    <link rel="stylesheet" href="css/setting.css">
+    <link rel="stylesheet" href="css/plugin.css">
+    <link rel="stylesheet" href="css/template.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- [S]basic-N1 -->
+    <header class="basic-N1" data-bid="vYM39t23mw">
+        <div class="header-inner">
+            <div class="header-container container-lg">
+                <h1 class="header-title">
+                    <a href="javascript:void(0)" onclick="window.location='./';">
+                        <img src="images/donga_logo_b.png" alt="로고">
+                    </a>
+                </h1>
+                <div class="header-center">
+                    <div class="header-title header-mobile-top">
+                        <a href="javascript:void(0)">
+                            <img src="images/donga_logo_b.png" alt="로고">
+                        </a>
+                    </div>
+                    <ul class="header-gnblist">
+                        <li class="header-gnbitem">
+                            <a class="header-gnblink" href="javascript:void(0)" onclick="window.location='./';">
+                                <span>Home</span>
+                            </a>
+                        </li>
+                        <li class="header-gnbitem">
+                            <a class="header-gnblink" href="javascript:void(0)" onclick="window.location='./projects';">
+                                <span>Projects</span>
+                            </a>
+                        </li>
+                        <li class="header-gnbitem">
+                            <a class="header-gnblink" href="javascript:void(0)" onclick="window.location='./discussions';">
+                                <span>Discussions</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="header-right">
+                    <div class="header-lang">
+                        <button class="header-langbtn" id="loginBtn" style="display: block;" onclick="window.location='./login';">로그인</button>
+                        <button class="header-langbtn" id="signupBtn" style="display: block;" onclick="window.location='./signup';">회원가입</button>
+                        <button class="header-langbtn" id="logoutBtn" style="display: none;">logout</button>
+                        <button class="header-langbtn" id="mypageBtn" style="display: none;">mypage</button>
+                    </div>
+                    <div class="header-utils">
+                        <button class="btn-allmenu">
+                            <img src="icons/ico_menu_black.svg" alt="PC메뉴 아이콘">
+                        </button>
+                        <button class="btn-momenu">
+                            <img src="icons/ico_menu_black.svg" alt="모바일메뉴 아이콘">
+                        </button>
+                        <button class="btn-close">
+                            <img src="icons/ico_close_black.svg" alt="닫기 아이콘">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-dim"></div>
+    </header>
+    <!-- [E]basic-N1 -->
+    <main class="th-layout-main ">
+        <!-- [S]basic-N5 -->
+        <div class="basic-N5" data-bid="lJm39t23RH">
+            <div class="contents-container">
+                <div class="contents-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img class="contents-backimg img-pc" src="images/img_mainvisual_01.png" alt="PC 배너 이미지">
+                            <img class="contents-backimg img-mobile" src="images/img_mainvisual_mobile_01.png" alt="모바일 배너 이미지">
+                            <div class="contents-slide-group container-md">
+                                <div class="textset textset-visual">
+                                    <h2 class="textset-tit"> Donga Hub </h2>
+                                    <p class="textset-desc"> 사용자는 언제 어디서든 웹사이트를 통해 필요한 정보를 검색할 수 있으며, <br> 여러 사용자들과 함께 프로젝트를 진행하고 토론을 해보세요. </p>
+                                </div>
+                                <a class="btnset btnset-round" href="javascript:void(0)" onclick="window.location='./login';">로그인</a>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <img class="contents-backimg img-pc" src="images/img_mainvisual_01.png" alt="PC 배너 이미지">
+                            <img class="contents-backimg img-mobile" src="images/img_mainvisual_mobile_01.png" alt="모바일 배너 이미지">
+                            <div class="contents-slide-group container-md">
+                                <div class="textset textset-visual">
+                                    <h2 class="textset-tit">Today's HOT Project is</h2>
+                                    <p class="textset-desc"> 오늘의 인기 있는 프로젝트를 확인해보세요.</p>
+                                </div>
+                                <a class="btnset btnset-round" href="javascript:void(0)" onclick="window.location='./projects';">자세히보기</a>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <img class="contents-backimg img-pc" src="images/img_mainvisual_01.png" alt="PC 배너 이미지">
+                            <img class="contents-backimg img-mobile" src="images/img_mainvisual_mobile_01.png" alt="모바일 배너 이미지">
+                            <div class="contents-slide-group container-md">
+                                <div class="textset textset-visual">
+                                    <h2 class="textset-tit">Today's Hot Debate is </h2>
+                                    <p class="textset-desc"> 오늘의 인기 있는 토론을 확인해보세요. </p>
+                                </div>
+                                <a class="btnset btnset-round" href="javascript:void(0)" onclick="window.location='./discussions';">자세히보기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contents-control">
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-pause">
+                            <img src="icons/ico_pause_white.svg" alt="스와이퍼 멈춤버튼">
+                        </div>
+                        <div class="swiper-button-play">
+                            <img src="icons/ico_play_white.svg" alt="스와이퍼 재생버튼">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [E]basic-N5 -->
+        <!-- [S]basic-N6 -->
+
+        <!-- [E]basic-N6 -->
+    </main>
+    <!-- [S]basic-N4 -->
+    <footer class="basic-N4" data-bid="Drm39T24D8">
+        <div class="footer-inner">
+            <div class="footer-container container-lg">
+                <div class="footer-top">
+                    <h1 class="footer-logo">
+                        <a href="javascript:void(0)">
+                            <img src="images/donga_logo_w.png" alt="로고">
+                        </a>
+                    </h1>
+                    <ul class="footer-menulist">
+                        <li class="footer-menuitem">
+                            <a href="javascript:void(0)">
+                                <span>이용약관</span>
+                            </a>
+                        </li>
+                        <li class="footer-menuitem">
+                            <a href="javascript:void(0)">
+                                <span>개인정보처리방침</span>
+                            </a>
+                        </li>
+                        <li class="footer-menuitem">
+                            <a href="javascript:void(0)">
+                                <span>도움말</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="footer-snslist">
+                        <li class="footer-snsitem">
+                            <a class="footer-snslink" href="javascript:void(0)">
+                                <img src="icons/ico_instagram_lightgrey.svg" alt="인스타그램">
+                            </a>
+                        </li>
+                        <li class="footer-snsitem">
+                            <a class="footer-snslink" href="javascript:void(0)">
+                                <img src="icons/ico_youtube_lightgrey.svg" alt="유튜브">
+                            </a>
+                        </li>
+                        <li class="footer-snsitem">
+                            <a class="footer-snslink" href="javascript:void(0)">
+                                <img src="icons/ico_facebook_lightgrey.svg" alt="페이스북">
+                            </a>
+                        </li>
+                        <li class="footer-snsitem">
+                            <a class="footer-snslink" href="javascript:void(0)">
+                                <img src="icons/ico_kakao_lightgrey.svg" alt="카카오톡">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-bottom">
+                    <div class="footer-txt">
+                        <p> (49315) 부산 사하구 낙동대로550번길 37 동아대학교 컴퓨터공학과 S06 </p>
+                        <p>
+                            <span>T. 051-200-7776</span>
+                            <span>E. help@givememoney.co.kr</span>
+                        </p>
+                    </div>
+                    <div class="footer-txt">
+                        <p>2024 H.D. - K.S. - L.T. - P.H. </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- [E]basic-N4 -->
+    <script src="js/auth.js"></script>
+
+</body>

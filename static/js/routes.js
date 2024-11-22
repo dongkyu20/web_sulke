@@ -13,6 +13,10 @@ module.exports = function(app, session, isAuthenticated)
         res.render('template/login.html');
     })
 
+    app.get('/projects', function(req, res){
+        res.render('template/projects.html');
+    })
+
     app.get('/projects', isAuthenticated, (req, res) => {
         // 예시
         const projects = [
@@ -38,7 +42,6 @@ module.exports = function(app, session, isAuthenticated)
         res.render('template/view_project.html', { project: projectDetails });
     });
 
-
     app.get('/projects_plus', function(req, res){
         res.render('template/projects_plus.html');
     })
@@ -49,6 +52,10 @@ module.exports = function(app, session, isAuthenticated)
 
     app.get('/create_discussion', function(req, res){
         res.render('template/create_discussion.html');
+    })
+
+    app.get('/discussions', function(req, res){
+        res.render('template/discussions.html');
     })
 
     app.get('/discussions', isAuthenticated, (req, res) => {

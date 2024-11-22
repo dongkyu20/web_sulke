@@ -29,17 +29,17 @@
                     </div>
                     <ul class="header-gnblist">
                         <li class="header-gnbitem">
-                            <a class="header-gnblink" href="javascript:void(0)" onclick="window.location='./index.html';">
+                            <a class="header-gnblink" href="javascript:void(0)" onclick="window.location='./index';">
                                 <span>Home</span>
                             </a>
                         </li>
                         <li class="header-gnbitem">
-                            <a class="header-gnblink" href="javascript:void(0)" onclick="window.location='./projects.html';">
+                            <a class="header-gnblink" href="javascript:void(0)" onclick="window.location='./projects';">
                                 <span>Projects</span>
                             </a>
                         </li>
                         <li class="header-gnbitem">
-                            <a class="header-gnblink" href="javascript:void(0)" onclick="window.location='./discussions.html';">
+                            <a class="header-gnblink" href="javascript:void(0)" onclick="window.location='./discussions';">
                                 <span>Discussions</span>
                             </a>
                         </li>
@@ -47,15 +47,10 @@
                 </div>
                 <div class="header-right">
                     <div class="header-lang">
-                        <button class="header-langbtn">Uesr</button>
-                        <ul class="header-langlist">
-                            <li class="header-langitem">
-                                <a href="javascript:void(0)" onclick="window.location='./mypage.html';">MyPage</a>
-                            </li>
-                            <li class="header-langitem">
-                                <a href="javascript:void(0)" onclick="window.location='';">Logout</a>
-                            </li>
-                        </ul>
+                        <button class="header-langbtn" id="loginBtn" style="display: block;" onclick="window.location='./login';">로그인</button>
+                        <button class="header-langbtn" id="signupBtn" style="display: block;" onclick="window.location='./signup';">회원가입</button>
+                        <button class="header-langbtn" id="logoutBtn" style="display: none;">logout</button>
+                        <button class="header-langbtn" id="mypageBtn" style="display: none;">mypage</button>
                     </div>
                     <div class="header-utils">
                         <button class="btn-allmenu">
@@ -114,7 +109,7 @@
                         </div>
                     </div>
                     <div class="contents-btn">
-                        <a class="btnset btnset-round" href="javascript:void(0)" onclick="window.location='./projects_plus.html';">BACK</a>
+                        <a class="btnset btnset-round" href="javascript:void(0)" onclick="window.location='./discussions';">BACK</a>
                     </div>
                     <table class="plus_create">
 
@@ -191,10 +186,7 @@
         </div>
     </footer>
     <!-- [E]basic-N4 -->
-    <script src="js/setting.js"></script>
-    <script src="js/plugin.js"></script>
-    <script src="js/template.js"></script>
-    <script src="js/common.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/auth.js"></script>
+
 
 </body>

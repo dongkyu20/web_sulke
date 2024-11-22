@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/template.css">
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -47,15 +48,10 @@
                 </div>
                 <div class="header-right">
                     <div class="header-lang">
-                        <button class="header-langbtn">Uesr</button>
-                        <ul class="header-langlist">
-                            <li class="header-langitem">
-                                <a href="javascript:void(0)" onclick="window.location='./mypage';">MyPage</a>
-                            </li>
-                            <li class="header-langitem">
-                                <a href="javascript:void(0)" onclick="window.location='';">Logout</a>
-                            </li>
-                        </ul>
+                        <button class="header-langbtn" id="loginBtn" style="display: block;" onclick="window.location='./login';">로그인</button>
+                        <button class="header-langbtn" id="signupBtn" style="display: block;" onclick="window.location='./signup';">회원가입</button>
+                        <button class="header-langbtn" id="logoutBtn" style="display: none;">logout</button>
+                        <button class="header-langbtn" id="mypageBtn" style="display: none;">mypage</button>
                     </div>
                     <div class="header-utils">
                         <button class="btn-allmenu">
@@ -80,100 +76,64 @@
             <div class="contents-container container-md">
                 <div class="textset">
                     <h2 class="textset-tit">Discussions</h2>
-                    <p class="textset-desc"></p>
+                    <p class="textset-desc">
+                        <div class="filters" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <select id="tech-filter" style="margin-right: 10px;">
+                                <option value="all">Language Categories</option>
+                                <option value="javascript">JavaScript</option>
+                                <option value="python">Python</option>
+                                <option value="java">Java</option>
+                            </select>
+                            <select id="field-filter" style="margin-right: auto;">
+                                <option value="all">Technology Categories</option>
+                                <option value="web">Web</option>
+                                <option value="mobile">Mobile</option>
+                                <option value="data">Data</option>
+                            </select>
+                            <a href="javascript:void(0);" class="btnset btnset-icon icon-left icon-more" style="padding: 7px 5px; height: auto; " onclick="window.location='./create_discussion';">Create a Discussion</a>
+                            <a href="javascript:void(0);" class="btnset btnset-icon icon-left icon-more" style="padding: 7px 5px; height: auto; " onclick="window.location='./discussions_plus';">더보기</a>
+                        </div>
+                    </p>
+                    <table class="plus_create">
+                        <thead>
+                            <tr>
+                                <th>Discussion Name</th>
+                                <th>Language Type</th>
+                                <th>Technology</th>
+                                <th style="text-align: center;">
+                                    <i style="font-size: 16px; color: #000e1d;" class="fa fa-thumbs-up"></i>
+                                </th>
+                                <th>View</th>
+                                <th>Comment</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr onclick="window.location='./view_discussion';">
+                                <td>Discussion Name</td>
+                                <td>Language Type</td>
+                                <td>Technology</td>
+                                <td>Like</td>
+                                <td>View</td>
+                                <td>Comment</td>
+                                <td>Date</td>
+                            </tr>
+                            <tr>
+                                <td>Discussion Name</td>
+                                <td>Language Type</td>
+                                <td>Technology</td>
+                                <td>Like</td>
+                                <td>View</td>
+                                <td>Comment</td>
+                                <td>Date</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a>이전 | 다음</a>
                 </div>
             </div>
         </div>
         <!-- [E]basic-N6 -->
-        <!-- [S]basic-N9 -->
-        <div class="basic-N9" data-bid="SoM39T248O">
-            <div class="contents-container">
-                <div class="contents-bottom container-md">
-                    <div class="textset">
-                        <h2 class="textset-tit">Hot Debate</h2>
-                        <p class="textset-desc"> </p>
-                    </div>
-                    <div class="contents-cardset">
-                        <a href="javascript:void(0);" class="cardset cardset-inner cardset-hover cardset-border" onclick="window.location='./view_discussion';">
-                            <div class="cardset-cont">
-                                <h2 class="cardset-tit">Debate Name</h2>
-                                <p class="cardset-desc"> Area <br> Field </p>
-                                <span class="cardset-txt"> 추천수 : 54 조회수 : 120 댓글수 : 27 <br> 2024. 01. 01</span>
-                            </div>
-                        </a>
-                        <a href="javascript:void(0);" class="cardset cardset-inner cardset-hover cardset-border" onclick="window.location='./view_discussion';">
-                            <div class="cardset-cont">
-                                <h2 class="cardset-tit">Debate Name</h2>
-                                <p class="cardset-desc"> Area <br> Field </p>
-                                <span class="cardset-txt"> 추천수 : 54 조회수 : 120 댓글수 : 27 <br> 2024. 01. 01</span>
-                            </div>
-                        </a>
-                        <a href="javascript:void(0);" class="cardset cardset-inner cardset-hover cardset-border" onclick="window.location='./view_discussion';">
-                            <div class="cardset-cont">
-                                <h2 class="cardset-tit">Debate Name</h2>
-                                <p class="cardset-desc"> Area <br> Field </p>
-                                <span class="cardset-txt"> 추천수 : 54 조회수 : 120 댓글수 : 27 <br> 2024. 01. 01</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="contents-inner">
-                <div class="contents-container container-md">
-                    <div class="textset">
-                        <h2 class="textset-tit">New Debate</h2>
-                        <p class="textset-desc"> </p>
-                    </div>
-                    <div class="contents-control">
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
-                    </div>
-                    <div class="swiper contents-swiper">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <div class="cardset cardset-inner">
-                                    <figure class="cardset-figure">
-                                        <img href="javascript:void(0);" class="cardset-img" src="images/img_basic_N9_1.png" alt="스와이퍼 이미지" onclick="window.location='./view_discussion';">
-                                    </figure>
-                                    <div class="cardset-body">
-                                        <h2 class="cardset-tit">Debate Name</h2>
-                                        <p class="cardset-desc"> Area <br> Field <br> 추천수 : 54 조회수 : 120 댓글수 : 27 </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="swiper-slide">
-                                <div class="cardset cardset-inner">
-                                    <figure class="cardset-figure">
-                                        <img href="javascript:void(0);" class="cardset-img" src="images/img_basic_N9_1.png" alt="스와이퍼 이미지" onclick="window.location='./view_discussion';">
-                                    </figure>
-                                    <div class="cardset-body">
-                                        <h2 class="cardset-tit">Debate Name</h2>
-                                        <p class="cardset-desc"> Area <br> Field <br> 추천수 : 23 조회수 : 432 댓글수 : 20 </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="swiper-slide">
-                                <div class="cardset cardset-inner">
-                                    <figure class="cardset-figure">
-                                        <img href="javascript:void(0);" class="cardset-img" src="images/img_basic_N9_1.png" alt="스와이퍼 이미지" onclick="window.location='./view_discussion';">
-                                    </figure>
-                                    <div class="cardset-body">
-                                        <h2 class="cardset-tit">Debate Name</h2>
-                                        <p class="cardset-desc"> Area <br> Field <br> 추천수 : 42 조회수 : 121 댓글수 : 19 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="contents-btn">
-                    <a href="javascript:void(0);" class="btnset btnset-icon icon-left icon-more" onclick="window.location='./discussions_plus';">더보기</a>
-                </div>
-            </div>
-        </div>
-        <!-- [E]basic-N9 -->
     </main>
     <!-- [S]basic-N4 -->
     <footer class="basic-N4" data-bid="Drm39T24D8">
@@ -241,10 +201,7 @@
         </div>
     </footer>
     <!-- [E]basic-N4 -->
-    <script src="js/setting.js"></script>
-    <script src="js/plugin.js"></script>
-    <script src="js/template.js"></script>
-    <script src="js/common.js"></script>
-    <script src="js/script.js"></script>
+     
+    <script src="js/auth.js"></script>
 
 </body>

@@ -47,15 +47,10 @@
                 </div>
                 <div class="header-right">
                     <div class="header-lang">
-                        <button class="header-langbtn">Uesr</button>
-                        <ul class="header-langlist">
-                            <li class="header-langitem">
-                                <a href="javascript:void(0)" onclick="window.location='./mypage.html';">MyPage</a>
-                            </li>
-                            <li class="header-langitem">
-                                <a href="javascript:void(0)" onclick="window.location='';">Logout</a>
-                            </li>
-                        </ul>
+                        <button class="header-langbtn" id="loginBtn" style="display: block;" onclick="window.location='./login';">로그인</button>
+                        <button class="header-langbtn" id="signupBtn" style="display: block;" onclick="window.location='./signup';">회원가입</button>
+                        <button class="header-langbtn" id="logoutBtn" style="display: none;">logout</button>
+                        <button class="header-langbtn" id="mypageBtn" style="display: none;">mypage</button>
                     </div>
                     <div class="header-utils">
                         <button class="btn-allmenu">
@@ -191,10 +186,7 @@
         </div>
     </footer>
     <!-- [E]basic-N4 -->
-    <script src="js/setting.js"></script>
-    <script src="js/plugin.js"></script>
-    <script src="js/template.js"></script>
-    <script src="js/common.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/auth.js"></script>
+
 
 </body>

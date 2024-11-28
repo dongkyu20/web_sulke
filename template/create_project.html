@@ -76,33 +76,33 @@
                 <div class="textset">
                     <h2 class="textset-tit">Create Project</h2>
                     <p class="textset-desc">
-                        <form action="/submit" method="POST">
+                        <form action="/create_project" method="POST">
                             <div class="filters">
-                                <select id="tech-filter">
-                                    <option value="all">Language Categories</option>
+                                <select name="techFilter" id="tech-filter" required>
+                                    <option value="">Language Categories</option>
                                     <option value="javascript">JavaScript</option>
                                     <option value="python">Python</option>
                                     <option value="java">Java</option>
                                     <!-- 추가 기술 -->
                                 </select>
-                                <select id="field-filter">
-                                    <option value="all">Technology Categories</option>
+                                <select name="fieldFilter" id="field-filter" required>
+                                    <option value="">Technology Categories</option>
                                     <option value="web">Web</option>
                                     <option value="mobile">Mobile</option>
                                     <option value="data">Data</option>
                                     <!-- 추가 분야 -->
                                 </select>
                             </div>
-
+                        
                             <label for="title">- Title -</label>
                             <input type="text" id="title" name="title" required><br><br>
-
+                        
                             <label for="content">- Content -</label><br>
                             <textarea id="content" name="content" rows="4" cols="50" required></textarea><br><br>
-
+                        
                             <div class="contents-btn">
-                                <button type="submit" class="btnset btnset-round" href="javascript:void(0)" onclick="window.location='./projects_plus';">OK</button>
-                                <a class="btnset btnset-round" href="javascript:void(0)" onclick="window.location='./projects_plus';">BACK</a>
+                                <button type="submit" class="btnset btnset-round">OK</button>
+                                <a class="btnset btnset-round" href="./projects_plus">BACK</a>
                             </div>
                         </form>
                     </p>

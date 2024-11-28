@@ -100,8 +100,8 @@ app.post('/signup/register', async (req, res) => {
   
       // 사용자 등록
       const [result] = await db.execute(
-        'INSERT INTO users (username, password) VALUES (?, ?)',
-        [username, hashedPassword]
+        'INSERT INTO users (username, user_id, password) VALUES (?, ?, ?)',
+        [username, username, hashedPassword]
       );
   
       res.status(201).json({ message: '회원가입 성공', userId: result.insertId });

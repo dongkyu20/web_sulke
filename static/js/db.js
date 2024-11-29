@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 
-const pool = mysql.createPool({
+const db = mysql.createPool({
   host: 'nakge.synology.me',
   port: 48652,
   user: 'soft_web',
@@ -11,6 +11,6 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-const promisePool = pool.promise();
+const promiseDB = db.promise();
 
-module.exports = promisePool;
+module.exports = promiseDB;

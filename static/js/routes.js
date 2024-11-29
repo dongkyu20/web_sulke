@@ -1,3 +1,5 @@
+const db = require('./db');
+
 module.exports = function (app, session, isAuthenticated) {
   app.get('/', function (req, res) {
       res.render('template/index.html');
@@ -13,7 +15,7 @@ module.exports = function (app, session, isAuthenticated) {
 
   app.get('/projects', isAuthenticated, async (req, res) => {
       try {
-          const [projects] = await db.execute("SELECT * FROM post ORDER BY created_at DESC");
+          const [projects] = await db.execute("SELECT * FROM posts ORDER BY created_at DESC");
           res.render('template/projects.html', { projects });
       } catch (error) {
           console.error("프로젝트 목록을 가져오는 중 에러:", error);
@@ -121,17 +123,17 @@ module.exports = function (app, session, isAuthenticated) {
       }
   });
 
-  // 로그인을 처리하는 라우트 추가
-  app.post('/login/auth', async (req, res) => {
-      const { username, password } = req.body;
+//   // 로그인을 처리하는 라우트 추가
+//   app.post('/login/auth', async (req, res) => {
+//       const { username, password } = req.body;
 
-      // 테스트용
-      if (username === "testUser" && password === "password123") {
-          req.session.isLoggedIn = true;
-          req.session.user = { id: 1, username };
-          res.json({ message: '로그인 성공' });
-      } else {
-          res.json({ message: '로그인 실패' });
-      }
-  });
+//       // 테스트용
+//       if (username === "testUser" && password === "password123") {
+//           req.session.isLoggedIn = true;
+//           req.session.user = { id: 1, username };
+//           res.json({ message: '로그인 성공' });
+//       } else {
+//           res.json({ message: '로그인 실패' });
+//       }
+//   });
 }

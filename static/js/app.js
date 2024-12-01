@@ -112,6 +112,18 @@ app.post('/signup/register', async (req, res) => {
   });
 
 
+  app.get('/projects', isAuthenticated, async (req, res) => {
+    try {
+      const [rows] = await db.execute('SELECT * FROM post ORDER BY created_at DESC');
+      res.json(rows);
+    } catch (err) {
+      console.error('프로젝트 데이터 가져오기 에러:', err);
+      res.status(500).json({ message: '서버 오류가 발생했습니다.' });
+    }
+  });
+  
+
+
 // 서버 시작
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

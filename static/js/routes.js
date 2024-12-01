@@ -1,4 +1,23 @@
+//db 정보 가져오기
 const db = require('./db');
+const multer = require('multer');
+const fs = require('fs');
+
+//파일 업로드 관련
+const upload = multer({
+    storage: multer.diskStorage({
+        destination: function (req, file, callback) {
+            if (!fs.existsSync('./uploads')) {
+                fs.mkdirSync('./uploads', { recursive: true });
+            }
+            callback(null, './uploads');
+        },
+        filename: function (req, file, callback) {
+            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+            callback(null, uniqueSuffix + '-' + file.originalname);
+        }
+    })
+});
 
 module.exports = function (app, session, isAuthenticated) {
   app.get('/', function (req, res) {
@@ -15,8 +34,8 @@ module.exports = function (app, session, isAuthenticated) {
 
   app.get('/projects', isAuthenticated, async (req, res) => {
       try {
-          const [projects] = await db.execute("SELECT * FROM posts ORDER BY created_at DESC");
-          res.render('template/projects.html', { projects });
+        const [projects] = await db.execute("SELECT id, title, username,likes, views, (select count(*) from comments where comments.post_id = posts.id) as comments, date_format(created_at, '%Y-%m-%d') as date from posts order by created_at DESC");
+        res.render('template/projects.html', { projects });
       } catch (error) {
           console.error("프로젝트 목록을 가져오는 중 에러:", error);
           res.status(500).send("서버 에러");
@@ -36,32 +55,59 @@ module.exports = function (app, session, isAuthenticated) {
       res.render('template/view_project.html', { project: projectDetails });
   });
 
-  app.get('/projects_plus', isAuthenticated, async (req, res) => {
-      try {
-          const [projects] = await db.execute("SELECT * FROM post ORDER BY created_at DESC");
-          res.render('template/projects_plus.html', { projects });
-      } catch (error) {
-          console.error("프로젝트 목록을 가져오는 중 에러:", error);
-          res.status(500).send("서버 에러");
-      }
+  //여기는 인쓰는 부분이 됨.
+//   app.get('/projects_plus', isAuthenticated, async (req, res) => {
+//       try {
+//         const [projects] = await db.execute("SELECT id, title, username,likes, views, (select count(*) from comments where comments.post_id = posts.id) as comments, date_format(created_at, '%Y-%m-%d') as date from posts order by created_at DESC");
+//         res.render('template/projects_plus.html', { projects });
+//       } catch (error) {
+//           console.error("프로젝트 목록을 가져오는 중 에러:", error);
+//           res.status(500).send("서버 에러");
+//       }
+//   });
+
+  app.get('/create_project', isAuthenticated, async (req, res) => {
+    const { username, id: user_id} = req.session.user;
+
+    try {
+        res.render('template/create_project.html', { username, user_id });
+    } catch (error) {
+        console.error("프로젝트 생성 중 에러:", error);
+        res.status(500).send("서버 에러");
+    }
   });
 
-  app.post('/create_project', isAuthenticated, async (req, res) => {
-    const { title, content, techFilter, fieldFilter } = req.body;
-    const username = req.session.user.username; // 세션에서 사용자 정보 가져오기
-    const user_id = req.session.user.id;
+  app.post('/create_project', isAuthenticated, upload.single('file'), async (req, res)=> {
+    const { title, content, tags } = req.body;
+    const { username, user_id } = req.session.user;
+    const file_path = req.file ? req.file.path : null;
 
-      try {
-          await db.execute(
-              "INSERT INTO post (title, content, category, tags, username, user_id) VALUES (?, ?, ?, ?, ?, ?)",
-              [title, content, fieldFilter, techFilter, username, user_id]
-          );
-          res.redirect('/projects_plus');
-      } catch (error) {
-          console.error("프로젝트 생성 중 에러:", error);
-          res.status(500).send("서버 에러");
-      }
-  });
+    console.log("debug용 출력", {
+        title,
+        category: "프로젝트",
+        content,
+        file_path,
+        tags,
+        username,
+        user_id
+    });
+    
+    try {
+        // DB에 데이터 삽입
+        await db.execute(
+            "INSERT INTO posts (category, title, content, file_path, tags, username, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            ["프로젝트", title, content, file_path, tags , username, user_id]
+        );
+
+        res.redirect('/projects');
+    } catch (error) {
+        console.error("프로젝트 생성 중 에러:", error);
+        res.status(500).send("서버 에러");
+    }
+
+  })
+  
+  
 
   app.get('/create_discussion', function (req, res) {
       res.render('template/create_discussion.html');

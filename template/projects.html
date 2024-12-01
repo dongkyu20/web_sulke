@@ -75,100 +75,71 @@
             <div class="contents-container container-md">
                 <div class="textset">
                     <h2 class="textset-tit">Projects</h2>
-                    <p class="textset-desc"></p>
+                    <!-- 이부분도 안씀.  -->
+                    <!-- <p class="textset-desc">
+                        <div class="filters">
+                            <select id="tech-filter">
+                                <option value="all">Language Categories</option>
+                                <option value="javascript">JavaScript</option>
+                                <option value="python">Python</option>
+                                <option value="java">Java</option>
+                            </select>
+                            <select id="field-filter">
+                                <option value="all">Technology Categories</option>
+                                <option value="web">Web</option>
+                                <option value="mobile">Mobile</option>
+                                <option value="data">Data</option>
+                            </select>
+                        </div>
+                    </p> -->
+                    <div class="create-btn">
+                        <a href="javascript:void(0);" class="btnset btnset-icon icon-left icon-more" onclick="window.location='./create_project';">Create a project</a>
+                    </div>
+                    <table class="plus_create">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Title</th>
+                                <th>Name</th>
+                                <th>Like</th>
+                                <th>View</th>
+                                <th>Comment</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% (projects || []).forEach(project => { %>
+                                <tr href="javascript:void(0);" onclick="window.location='./view_project?id=<%= project.id %>';">
+                                    <td><%= project.id %></td>
+                                    <td><%= project.title %></td>
+                                    <td><%= project.username %></td>
+                                    <td><%= project.likes %></td>
+                                    <td><%= project.views %></td>
+                                    <td><%= project.comments %></td>
+                                    <td><%= project.date %></td>
+                                </tr>
+                            <% }) %>
+
+                            <!-- 이 부분은 테이블 안에 값 추가하면 지울 예정임 -->
+                            <tr href="javascript:void(0);" onclick="window.location='./view_project';">
+                                <td>1</td>
+                                <td>연습용1</td>
+                                <td>aa</td>
+                                <td>3</td>
+                                <td>13</td>
+                                <td>2</td>
+                                <td>2024-11-29</td>
+                            </tr>
+                            <!-- 여기까지는 임시로 한거. -->
+                             
+                        </tbody>
+                    </table>
+                    <a>이전 | 다음</a>
+
                 </div>
             </div>
         </div>
         <!-- [E]basic-N6 -->
-        <!-- [S]basic-N9 -->
-        <div class="basic-N9" data-bid="SoM39T248O">
-            <div class="contents-container">
-                <div class="contents-bottom container-md">
-                    <div class="textset">
-                        <h2 class="textset-tit">Hot Projects</h2>
-                        <p class="textset-desc"> </p>
-                    </div>
-                    <div class="contents-cardset">
-                        <a href="javascript:void(0);" class="cardset cardset-inner cardset-hover cardset-border" onclick="window.location='./view_project';">
-                            <div class="cardset-cont">
-                                <h2 class="cardset-tit">Project Name</h2>
-                                <p class="cardset-desc"> Field <br>Technologies Used in the Project </p>
-                                <span class="cardset-txt"> 추천수 : 54 조회수 : 120 댓글수 : 27 <br> 2024. 01. 01</span>
-                            </div>
-                        </a>
-                        <a href="javascript:void(0);" class="cardset cardset-inner cardset-hover cardset-border" onclick="window.location='./view_project';">
-                            <div class="cardset-cont">
-                                <h2 class="cardset-tit">Project Name</h2>
-                                <p class="cardset-desc"> Field <br>Technologies Used in the Project </p>
-                                <span class="cardset-txt"> 추천수 : 54 조회수 : 120 댓글수 : 27 <br>2024. 01. 01</span>
-                            </div>
-                        </a>
-                        <a href="javascript:void(0);" class="cardset cardset-inner cardset-hover cardset-border" onclick="window.location='./view_project';">
-                            <div class="cardset-cont">
-                                <h2 class="cardset-tit">Project Name</h2>
-                                <p class="cardset-desc"> Field <br>Technologies Used in the Project </p>
-                                <span class="cardset-txt"> 추천수 : 54 조회수 : 120 댓글수 : 27 <br> 2024. 01. 01</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="contents-inner">
-                <div class="contents-container container-md">
-                    <div class="textset">
-                        <h2 class="textset-tit">New Projects</h2>
-                        <p class="textset-desc"> </p>
-                    </div>
-                    <div class="contents-control">
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
-                    </div>
-                    <div class="swiper contents-swiper">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <div class="cardset cardset-inner">
-                                    <figure class="cardset-figure">
-                                        <img href="javascript:void(0);" class="cardset-img" src="images/img_basic_N9_1.png" alt="스와이퍼 이미지" onclick="window.location='./view_project';">
-                                    </figure>
-                                    <div class="cardset-body">
-                                        <h2 class="cardset-tit">Project Name</h2>
-                                        <p class="cardset-desc"> Field <br> Technologies Used in the Project <br> 추천수 : 54 조회수 : 120 댓글수 : 27 </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="swiper-slide">
-                                <div class="cardset cardset-inner">
-                                    <figure class="cardset-figure">
-                                        <img href="javascript:void(0);" class="cardset-img" src="images/img_basic_N9_1.png" alt="스와이퍼 이미지" onclick="window.location='./view_project';">
-                                    </figure>
-                                    <div class="cardset-body">
-                                        <h2 class="cardset-tit">Project Name</h2>
-                                        <p class="cardset-desc"> Field <br> Technologies Used in the Project <br> 추천수 : 23 조회수 : 432 댓글수 : 20 </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="swiper-slide">
-                                <div class="cardset cardset-inner">
-                                    <figure class="cardset-figure">
-                                        <img href="javascript:void(0);" class="cardset-img" src="images/img_basic_N9_1.png" alt="스와이퍼 이미지" onclick="window.location='./view_project';">
-                                    </figure>
-                                    <div class="cardset-body">
-                                        <h2 class="cardset-tit">Project Name</h2>
-                                        <p class="cardset-desc"> Field <br>Technologies Used in the Project <br> 추천수 : 42 조회수 : 121 댓글수 : 19 </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="contents-btn">
-                    <a href="javascript:void(0);" class="btnset btnset-icon icon-left icon-more" onclick="window.location='./projects_plus';">더보기</a>
-                </div>
-            </div>
-        </div>
-        <!-- [E]basic-N9 -->
     </main>
     <!-- [S]basic-N4 -->
     <footer class="basic-N4" data-bid="Drm39T24D8">

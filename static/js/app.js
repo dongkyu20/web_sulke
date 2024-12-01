@@ -2,6 +2,8 @@
 const express = require('express');
 const session = require('express-session');
 const appRoot = require('app-root-path');
+const multer = require('multer');
+const fs = require('fs');
 const bcrypt = require('bcrypt');
 const app = express();
 app.set('views', `${appRoot}`);
@@ -60,7 +62,8 @@ app.post('/login/auth', async (req, res) => {
     req.session.isLoggedIn = true;
     req.session.user = {
       id: user.id,
-      username: user.username
+      username: user.username,
+      user_id: user.user_id
     };
       return res.json({ message: '로그인 성공' });
     }

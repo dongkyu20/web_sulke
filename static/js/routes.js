@@ -13,8 +13,11 @@ const upload = multer({
             callback(null, './uploads');
         },
         filename: function (req, file, callback) {
+            // 파일 이름을 고유하고 안전하게 변환
             const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-            callback(null, uniqueSuffix + '-' + file.originalname);
+            const safeFileName = file.originalname
+                .replace(/[^a-zA-Z0-9.\-_]/g, '_'); // 특수문자를 _로 변환
+            callback(null, uniqueSuffix + '-' + safeFileName);
         }
     })
 });
@@ -43,17 +46,141 @@ module.exports = function (app, session, isAuthenticated) {
   });
 
 
-  app.get('/view_project', isAuthenticated, (req, res) => {
-      const projectDetails = {
-          id: 1,
-          title: "Project A",
-          description: "Detailed Description of Project A",
-          created_at: "2024-01-01", 
-          username: "User123"
-      };
+  app.get('/view_project', isAuthenticated, async (req, res) => {
+    const projectId = req.query.id;
+    if (!projectId) {
+        return res.status(400).send('잘못된 접근입니다.');
+    }
+    try {
+        // 조회수 증가
+        await db.execute('UPDATE posts SET views = views + 1 WHERE id = ?', [projectId]);
+        const [rows] = await db.execute("SELECT id, title, tags, content, likes, views, (select count(*) from comments where comments.post_id = posts.id) as comments, date_format(created_at, '%Y-%m-%d') as date, file_path, username from posts where id = ? ", [projectId]);
+        if (rows.length === 0) {
+            return res.status(404).send('Project not found');
+        }
 
-      res.render('template/view_project.html', { project: projectDetails });
+        const [commentRows] = await db.execute(`SELECT username, content, DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') AS date FROM comments WHERE post_id = ? ORDER BY created_at ASC`,[projectId]);
+
+        res.render('template/view_project.html', { project: rows[0], comments: commentRows });
+    } catch (error) {
+        console.error('프로젝트 조회 중 에러:', error);
+        res.status(500).send('서버 에러가 발생했습니다.');
+    }
+    //   const projectDetails = {
+    //       id: 1,
+    //       title: "Project A",
+    //       description: "Detailed Description of Project A",
+    //       created_at: "2024-01-01", 
+    //       username: "User123"
+    //   };
   });
+
+  //좋아요 기능 -> 계정당 한번만 할 수 있음.
+  app.post('/like_project', isAuthenticated, async (req, res) => {
+    const projectId = req.body.id;
+    const userId = req.session.user.id;
+
+    if (!projectId) {
+        console.error('No Project ID provided');
+        return res.status(400).json({ message: '잘못된 접근입니다.' });
+    }
+
+    try {
+        const [existingLike] = await db.execute(
+            'SELECT * FROM post_likes WHERE user_id = ? AND post_id = ?',
+            [userId, projectId]
+        );
+
+        if (existingLike.length > 0) {
+            return res.status(400).json({ message: '계정당 좋아요는 한번만 가능합니다.' });
+        }
+
+        await db.execute(
+            'INSERT INTO post_likes (user_id, post_id) VALUES (?, ?)',
+            [userId, projectId]
+        );
+
+        await db.execute(
+            'UPDATE posts SET likes = likes + 1 WHERE id = ?',
+            [projectId]
+        );
+
+        return res.status(200).json({ message: '좋아요!!!!' });
+    } catch (error) {
+        console.error('좋아요 처리 중 에러:', error);
+        return res.status(500).json({ message: '서버 에러가 발생했습니다.' });
+    }
+});
+
+//댓글 추가
+app.post('/add_comment', isAuthenticated, async (req, res) => {
+    const { content, projectId } = req.body;
+    const { username, user_id } = req.session.user;
+
+    if (!content || !projectId) {
+        return res.status(400).send({ message: 'Content and Project ID are required' });
+    }
+
+    try {
+        const [result] = await db.execute(
+            `INSERT INTO comments (post_id, user_id, username, content) VALUES (?, ?, ?, ?)`,
+            [projectId, user_id, username, content]
+        );
+
+        const [newComment] = await db.execute(
+            `SELECT 
+                username, 
+                content, 
+                DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') AS created_at 
+             FROM comments 
+             WHERE id = ?`,
+            [result.insertId]
+        );
+
+        res.status(200).send({ message: '댓글이 추가되었습니다.', comment: newComment[0] });
+    } catch (error) {
+        console.error('댓글 추가 중 에러:', error);
+        res.status(500).send({ message: '서버 에러가 발생했습니다.' });
+    }
+});
+//파일 다운로드
+app.get('/download', isAuthenticated, async (req, res) => {
+    const projectId = req.query.id; // 다운로드하려는 프로젝트 ID
+
+    if (!projectId) {
+        return res.status(400).send('Project ID is required');
+    }
+
+    try {
+        // 데이터베이스에서 파일 경로를 가져옴
+        const [rows] = await db.execute(
+            'SELECT file_path FROM posts WHERE id = ?',
+            [projectId]
+        );
+
+        if (rows.length === 0) {
+            return res.status(404).send('File not found');
+        }
+
+        const filePath = rows[0].file_path;
+
+        // 파일이 실제 서버 디렉토리에 있는지 확인
+        if (!fs.existsSync(filePath)) {
+            return res.status(404).send('File does not exist on the server');
+        }
+
+        // 파일 다운로드
+        res.download(filePath, (err) => {
+            if (err) {
+                console.error('파일 다운로드 중 에러:', err);
+                res.status(500).send('파일 다운로드 중 문제가 발생했습니다.');
+            }
+        });
+    } catch (error) {
+        console.error('파일 다운로드 중 에러:', error);
+        res.status(500).send('서버 에러가 발생했습니다.');
+    }
+});
 
   //여기는 인쓰는 부분이 됨.
 //   app.get('/projects_plus', isAuthenticated, async (req, res) => {

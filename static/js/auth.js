@@ -83,5 +83,27 @@ async function logout() {
         window.location.href = '/mypage';
     });
   }
-  
+  // 페이지 로드 시 로그인 상태에 따라 메인 콘텐츠 업데이트
+document.addEventListener('DOMContentLoaded', async () => {
+  await updateUIWithAuthStatus();
+  updateMainContent();
+});
+
+// 메인 콘텐츠 업데이트 함수
+async function updateMainContent() {
+  const { isLoggedIn } = await checkLoginStatus();
+  const loginSlide = document.getElementById('loginSlide');
+  const projectsSlide = document.getElementById('projectsSlide');
+  const discussionsSlide = document.getElementById('discussionsSlide');
+
+  if (isLoggedIn) {
+      loginSlide.style.display = 'none';
+      projectsSlide.style.display = 'block';
+      discussionsSlide.style.display = 'block';
+  } else {
+      loginSlide.style.display = 'block';
+      projectsSlide.style.display = 'none';
+      discussionsSlide.style.display = 'none';
+  }
+}
 

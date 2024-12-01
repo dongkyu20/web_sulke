@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/template.css">
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -53,14 +54,10 @@
                         <button class="header-langbtn" id="mypageBtn" style="display: none;">mypage</button>
                     </div>
                     <div class="header-utils">
-                        <button class="btn-allmenu">
-                            <img src="icons/ico_menu_black.svg" alt="PC메뉴 아이콘">
-                        </button>
-                        <button class="btn-momenu">
+                        <button class="sidebar-search-btn" onclick="toggleSidebar()"><i class="fa fa-search"></i></button>
+                        
+                        <button class="btn-momenu" onclick="toggleSidebar()">
                             <img src="icons/ico_menu_black.svg" alt="모바일메뉴 아이콘">
-                        </button>
-                        <button class="btn-close">
-                            <img src="icons/ico_close_black.svg" alt="닫기 아이콘">
                         </button>
                     </div>
                 </div>
@@ -71,53 +68,55 @@
     <!-- [E]basic-N1 -->
     <main class="th-layout-main ">
         <!-- [S]basic-N5 -->
-        <div class="basic-N5" data-bid="lJm39t23RH">
+        <div class="basic-N5" data-bid="lJm39t23RH" id="mainContent">
             <div class="contents-container">
                 <div class="contents-swiper">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
+                    <div class="swiper-wrapper" id="mainSlides">
+                        <!-- 로그인 상태가 아닐 때 -->
+                        <div class="swiper-slide" id="loginSlide">
                             <img class="contents-backimg img-pc" src="images/img_mainvisual_01.png" alt="PC 배너 이미지">
                             <img class="contents-backimg img-mobile" src="images/img_mainvisual_mobile_01.png" alt="모바일 배너 이미지">
                             <div class="contents-slide-group container-md">
                                 <div class="textset textset-visual">
                                     <h2 class="textset-tit"> Donga Hub </h2>
-                                    <p class="textset-desc"> 사용자는 언제 어디서든 웹사이트를 통해 필요한 정보를 검색할 수 있으며, <br> 여러 사용자들과 함께 프로젝트를 진행하고 토론을 해보세요. </p>
+                                    <p class="textset-desc"> 사용자는 언제 여기서든 웹사이트를 통해 필요한 정보를 검색할 수 있으며, <br> 여러 사용자들과 함께 프로젝트를 진행하고 토론을 해보세요. </p>
                                 </div>
                                 <a class="btnset btnset-round" href="javascript:void(0)" onclick="window.location='./login';">로그인</a>
                             </div>
                         </div>
-                        <div class="swiper-slide">
-                            <img class="contents-backimg img-pc" src="images/img_mainvisual_01.png" alt="PC 배너 이미지">
-                            <img class="contents-backimg img-mobile" src="images/img_mainvisual_mobile_01.png" alt="모바일 배너 이미지">
+                        <!-- 로그인 상태일 때 -->
+                        <div class="basic-N9" data-bid="SoM39T248O" id="projectsSlide" style="display: none;">
                             <div class="contents-slide-group container-md">
-                                <div class="textset textset-visual">
-                                    <h2 class="textset-tit">Today's HOT Project is</h2>
-                                    <p class="textset-desc"> 오늘의 인기 있는 프로젝트를 확인해보세요.</p>
+                                <div class="contents-bottom container-md">
+                                    <div class="textset">
+                                        <h2 class="textset-tit">Hot Projects</h2>
+                                        <p class="textset-desc"> </p>
+                                    </div>
+                                    <div class="contents-cardset">
+                                        <a href="javascript:void(0);" class="cardset cardset-inner cardset-hover cardset-border" onclick="window.location='./view_project';">
+                                            <div class="cardset-cont">
+                                                <h2 class="cardset-tit">Project Name</h2>
+                                                <p class="cardset-desc"> Field <br>Technologies Used in the Project </p>
+                                                <span class="cardset-txt"> 추천수 : 54 조회수 : 120 댓글수 : 27 <br> 2024. 01. 01</span>
+                                            </div>
+                                        </a>
+                                        <a href="javascript:void(0);" class="cardset cardset-inner cardset-hover cardset-border" onclick="window.location='./view_project';">
+                                            <div class="cardset-cont">
+                                                <h2 class="cardset-tit">Project Name</h2>
+                                                <p class="cardset-desc"> Field <br>Technologies Used in the Project </p>
+                                                <span class="cardset-txt"> 추천수 : 54 조회수 : 120 댓글수 : 27 <br>2024. 01. 01</span>
+                                            </div>
+                                        </a>
+                                        <a href="javascript:void(0);" class="cardset cardset-inner cardset-hover cardset-border" onclick="window.location='./view_project';">
+                                            <div class="cardset-cont">
+                                                <h2 class="cardset-tit">Project Name</h2>
+                                                <p class="cardset-desc"> Field <br>Technologies Used in the Project </p>
+                                                <span class="cardset-txt"> 추천수 : 54 조회수 : 120 댓글수 : 27 <br> 2024. 01. 01</span>
+                                            </div>
+                                        </a>
+                                    </div>
                                 </div>
-                                <a class="btnset btnset-round" href="javascript:void(0)" onclick="window.location='./projects';">자세히보기</a>
                             </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <img class="contents-backimg img-pc" src="images/img_mainvisual_01.png" alt="PC 배너 이미지">
-                            <img class="contents-backimg img-mobile" src="images/img_mainvisual_mobile_01.png" alt="모바일 배너 이미지">
-                            <div class="contents-slide-group container-md">
-                                <div class="textset textset-visual">
-                                    <h2 class="textset-tit">Today's Hot Debate is </h2>
-                                    <p class="textset-desc"> 오늘의 인기 있는 토론을 확인해보세요. </p>
-                                </div>
-                                <a class="btnset btnset-round" href="javascript:void(0)" onclick="window.location='./discussions';">자세히보기</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="contents-control">
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-pagination"></div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-pause">
-                            <img src="icons/ico_pause_white.svg" alt="스와이퍼 멈춤버튼">
-                        </div>
-                        <div class="swiper-button-play">
-                            <img src="icons/ico_play_white.svg" alt="스와이퍼 재생버튼">
                         </div>
                     </div>
                 </div>
@@ -132,68 +131,78 @@
     <footer class="basic-N4" data-bid="Drm39T24D8">
         <div class="footer-inner">
             <div class="footer-container container-lg">
-                <div class="footer-top">
-                    <h1 class="footer-logo">
-                        <a href="javascript:void(0)">
-                            <img src="images/donga_logo_w.png" alt="로고">
-                        </a>
-                    </h1>
-                    <ul class="footer-menulist">
-                        <li class="footer-menuitem">
-                            <a href="javascript:void(0)">
-                                <span>이용약관</span>
-                            </a>
-                        </li>
-                        <li class="footer-menuitem">
-                            <a href="javascript:void(0)">
-                                <span>개인정보처리방침</span>
-                            </a>
-                        </li>
-                        <li class="footer-menuitem">
-                            <a href="javascript:void(0)">
-                                <span>도움말</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="footer-snslist">
-                        <li class="footer-snsitem">
-                            <a class="footer-snslink" href="javascript:void(0)">
-                                <img src="icons/ico_instagram_lightgrey.svg" alt="인스타그램">
-                            </a>
-                        </li>
-                        <li class="footer-snsitem">
-                            <a class="footer-snslink" href="javascript:void(0)">
-                                <img src="icons/ico_youtube_lightgrey.svg" alt="유튜브">
-                            </a>
-                        </li>
-                        <li class="footer-snsitem">
-                            <a class="footer-snslink" href="javascript:void(0)">
-                                <img src="icons/ico_facebook_lightgrey.svg" alt="페이스북">
-                            </a>
-                        </li>
-                        <li class="footer-snsitem">
-                            <a class="footer-snslink" href="javascript:void(0)">
-                                <img src="icons/ico_kakao_lightgrey.svg" alt="카카오톡">
-                            </a>
-                        </li>
-                    </ul>
+                <h1 class="footer-logo" style="float: left;">
+                    <a href="javascript:void(0)" onclick="window.location='./';">
+                        <img src="images/donga_logo_w.png" alt="로고">
+                    </a>
+                </h1>
+                <div class="footer-txt">
+                    <p> (49315) 부산 사하구 낙동대로550번길 37 동아대학교 컴퓨터공학과 S06-6층 </p>
                 </div>
-                <div class="footer-bottom">
-                    <div class="footer-txt">
-                        <p> (49315) 부산 사하구 낙동대로550번길 37 동아대학교 컴퓨터공학과 S06 </p>
-                        <p>
-                            <span>T. 051-200-7776</span>
-                            <span>E. help@givememoney.co.kr</span>
-                        </p>
-                    </div>
-                    <div class="footer-txt">
-                        <p>2024 H.D. - K.S. - L.T. - P.H. </p>
-                    </div>
+                <div class="footer-txt">
+                    <p><span>T. 051-200-7776</span></p>
+                    <p><span>E. help@givememoney.co.kr</span></p>
                 </div>
             </div>
         </div>
     </footer>
     <!-- [E]basic-N4 -->
     <script src="js/auth.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const headerRight = document.querySelector('.header-right');
 
+            if (sidebar) {
+                const isClosed = sidebar.getAttribute('data-state') === 'closed';
+                sidebar.setAttribute('data-state', isClosed ? 'open' : 'closed');
+                sidebar.style.display = isClosed ? 'block' : 'none';
+                headerRight.style.transform = isClosed ? 'translateX(-300px)' : 'translateX(0)';
+            } else {
+                const newSidebar = document.createElement('div');
+                newSidebar.className = 'sidebar';
+                newSidebar.setAttribute('data-state', 'open');
+                newSidebar.style.width = '350px';
+                newSidebar.style.position = 'fixed';
+                newSidebar.style.top = '0';
+                newSidebar.style.right = '0';
+                newSidebar.style.height = '100%';
+                newSidebar.style.backgroundColor = '#ffffff';
+                newSidebar.style.boxShadow = '-2px 0 5px rgba(0,0,0,0.3)';
+                newSidebar.style.zIndex = '1000';
+                newSidebar.style.padding = '20px';
+                newSidebar.innerHTML = `
+                    <input type="text" placeholder="Search..." class="sidebar-search">
+                    <button class="sidebar-search-btn">검색</button>
+                `;
+                document.body.insertBefore(newSidebar, document.querySelector('main'));
+                headerRight.style.transform = 'translateX(-300px)';
+            }
+        }
+    </script>
+    <style>
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-search {
+            width: calc(100% - 60px);
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .sidebar-search-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .header-right {
+            transition: transform 0.3s ease;
+        }
+    </style>
 </body>
+</html>

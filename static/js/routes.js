@@ -1,3 +1,5 @@
+const db = require('./db');
+
 module.exports = function (app, session, isAuthenticated) {
   app.get('/', function (req, res) {
       res.render('template/index.html');
@@ -13,7 +15,7 @@ module.exports = function (app, session, isAuthenticated) {
 
   app.get('/projects', isAuthenticated, async (req, res) => {
       try {
-          const [projects] = await db.execute("SELECT * FROM post ORDER BY created_at DESC");
+          const [projects] = await db.execute("SELECT * FROM posts ORDER BY created_at DESC");
           res.render('template/projects.html', { projects });
       } catch (error) {
           console.error("프로젝트 목록을 가져오는 중 에러:", error);
@@ -121,12 +123,31 @@ module.exports = function (app, session, isAuthenticated) {
       }
   });
 
+  app.get('/projects/search', isAuthenticated, async (req, res) => {
+    const query = req.query.query; // 검색어 가져오기
+
+    if (!query) {
+        return res.json([]);
+    }
+
+    try {
+        const [projects] = await db.execute(
+            "SELECT id, title, username, likes, views, (SELECT count(*) FROM comments WHERE comments.post_id = posts.id) as comments, date_format(created_at, '%Y-%m-%d') as date FROM posts WHERE title LIKE ? OR content LIKE ? ORDER BY created_at DESC",
+            [`%${query}%`, `%${query}%`]
+        );
+        res.json(projects);
+    } catch (error) {
+        console.error("프로젝트 목록을 검색하는 중 에러:", error);
+        res.status(500).json({ error: "서버 에러" });
+    }
+});
+
   // 로그인을 처리하는 라우트 추가
   app.post('/login/auth', async (req, res) => {
       const { username, password } = req.body;
 
       // 테스트용
-      if (username === "testUser" && password === "password123") {
+      if (username === "test" && password === "123") {
           req.session.isLoggedIn = true;
           req.session.user = { id: 1, username };
           res.json({ message: '로그인 성공' });

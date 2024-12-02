@@ -123,6 +123,7 @@ module.exports = function (app, session, isAuthenticated) {
       }
   });
 
+
   app.get('/projects/search', isAuthenticated, async (req, res) => {
     const query = req.query.query; // 검색어 가져오기
 
@@ -155,4 +156,18 @@ module.exports = function (app, session, isAuthenticated) {
           res.json({ message: '로그인 실패' });
       }
   });
+
+//   // 로그인을 처리하는 라우트 추가
+//   app.post('/login/auth', async (req, res) => {
+//       const { username, password } = req.body;
+
+//       // 테스트용
+//       if (username === "testUser" && password === "password123") {
+//           req.session.isLoggedIn = true;
+//           req.session.user = { id: 1, username };
+//           res.json({ message: '로그인 성공' });
+//       } else {
+//           res.json({ message: '로그인 실패' });
+//       }
+//   });
 }

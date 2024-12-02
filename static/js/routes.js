@@ -347,10 +347,31 @@ app.post('/like_discussion', isAuthenticated, async (req, res) => {
       res.render('template/search.html');
   });
 
-  app.get('/mypage', isAuthenticated, (req, res) => {
-      const userinfo = req.session.user;
-      res.render('template/mypage.html', { userinfo });
-  });
+  app.get('/mypage', isAuthenticated, async (req, res) => {
+    const userinfo = req.session.user;
+    const { user_id } = req.session.user;
+
+    try {
+        // 현재 사용자가 올린 프로젝트 가져오기
+        const [projects] = await db.execute(
+            'SELECT id, title, likes, views, (SELECT count(*) FROM comments WHERE comments.post_id = posts.id) AS comments, DATE_FORMAT(created_at, "%Y-%m-%d") AS date FROM posts WHERE user_id = ? ORDER BY created_at DESC',
+            [user_id]
+        );
+
+        // 현재 사용자가 올린 토론 가져오기
+        const [discussions] = await db.execute(
+            'SELECT id, title, likes, views, (SELECT count(*) FROM discussion_comments WHERE discussion_comments.discussion_id = discussion.id) AS comments, DATE_FORMAT(created_at, "%Y-%m-%d") AS date FROM discussion WHERE user_id = ? ORDER BY created_at DESC',
+            [user_id]
+        );
+
+        // `mypage.html` 템플릿에 userinfo, projects, discussions 데이터를 전달
+        res.render('template/mypage.html', { userinfo, projects, discussions });
+    } catch (error) {
+        console.error('마이페이지 데이터를 가져오는 중 에러:', error);
+        res.status(500).send('서버 에러');
+    }
+});
+
 
   app.post('/api/auth/userinfo', isAuthenticated, (req, res) => {
       if (req.session.isLoggedIn) {

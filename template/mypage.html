@@ -3,12 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>소프트웨어공학</title>
+    <title>My Page</title>
     <link rel="stylesheet" href="css/setting.css">
     <link rel="stylesheet" href="css/plugin.css">
     <link rel="stylesheet" href="css/template.css">
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -17,7 +18,7 @@
         <div class="header-inner">
             <div class="header-container container-lg">
                 <h1 class="header-title">
-                    <a href="javascript:void(0)" onclick="window.location='./';">
+                    <a href="javascript:void(0)" onclick="window.location='./index';">
                         <img src="images/donga_logo_b.png" alt="로고">
                     </a>
                 </h1>
@@ -29,7 +30,7 @@
                     </div>
                     <ul class="header-gnblist">
                         <li class="header-gnbitem">
-                            <a class="header-gnblink" href="javascript:void(0)" onclick="window.location='./';">
+                            <a class="header-gnblink" href="javascript:void(0)" onclick="window.location='./index';">
                                 <span>Home</span>
                             </a>
                         </li>
@@ -47,21 +48,8 @@
                 </div>
                 <div class="header-right">
                     <div class="header-lang">
-                        <button class="header-langbtn" id="loginBtn" style="display: block;" onclick="window.location='./login';">로그인</button>
-                        <button class="header-langbtn" id="signupBtn" style="display: block;" onclick="window.location='./signup';">회원가입</button>
-                        <button class="header-langbtn" id="logoutBtn" style="display: none;">logout</button>
-                        <button class="header-langbtn" id="mypageBtn" style="display: none;">mypage</button>
-                    </div>
-                    <div class="header-utils">
-                        <button class="btn-allmenu">
-                            <img src="icons/ico_menu_black.svg" alt="PC메뉴 아이콘">
-                        </button>
-                        <button class="btn-momenu">
-                            <img src="icons/ico_menu_black.svg" alt="모바일메뉴 아이콘">
-                        </button>
-                        <button class="btn-close">
-                            <img src="icons/ico_close_black.svg" alt="닫기 아이콘">
-                        </button>
+                        <button class="header-langbtn" id="logoutBtn" style="display: block;" onclick="window.location='./logout';">logout</button>
+                        <button class="header-langbtn" id="mypageBtn" style="display: block;" onclick="window.location='./mypage';">mypage</button>
                     </div>
                 </div>
             </div>
@@ -74,7 +62,7 @@
         <div class="basic-N6" data-bid="NWm39T23XR">
             <div class="contents-container container-md">
                 <div class="textset">
-                    <h2 class="textset-tit">MyPage</h2>
+                    <h2 class="textset-tit">My Page</h2>
                     <table>
                         <tr>
                             <th>이 름</th>
@@ -85,86 +73,64 @@
                             <th><%= userinfo.email %></th>
                         </tr>
                     </table>
+                    <div class="my-projects">
+                        <h3>My Projects</h3>
+                        <table class="plus_create">
+                            <thead>
+                                <tr>
+                                    <th>Project Name</th>
+                                    <th style="text-align: center;">
+                                        <i style="font-size: 16px; color: #000e1d;" class="fa fa-thumbs-up"></i>
+                                    </th>
+                                    <th>View</th>
+                                    <th>Comment</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% (projects || []).forEach(project => { %>
+                                    <tr href="javascript:void(0);" onclick="window.location='./view_project?id=<%= project.id %>';">
+                                        <td><%= project.title %></td>
+                                        <td><%= project.likes %></td>
+                                        <td><%= project.views %></td>
+                                        <td><%= project.comments %></td>
+                                        <td><%= project.date %></td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="my-discussions">
+                        <h3>My Discussions</h3>
+                        <table class="plus_create">
+                            <thead>
+                                <tr>
+                                    <th>Discussion Name</th>
+                                    <th style="text-align: center;">
+                                        <i style="font-size: 16px; color: #000e1d;" class="fa fa-thumbs-up"></i>
+                                    </th>
+                                    <th>View</th>
+                                    <th>Comment</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% (discussions || []).forEach(discussion => { %>
+                                    <tr href="javascript:void(0);" onclick="window.location='./view_discussion?id=<%= discussion.id %>';">
+                                        <td><%= discussion.title %></td>
+                                        <td><%= discussion.likes %></td>
+                                        <td><%= discussion.views %></td>
+                                        <td><%= discussion.comments %></td>
+                                        <td><%= discussion.date %></td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
         <!-- [E]basic-N6 -->
-        <!-- [S]basic-N9 -->
-        <div class="basic-N9" data-bid="SoM39T248O">
-            <div class="contents-container">
-                <div class="contents-bottom container-md">
-                    <div class="textset">
-                        <h2 class="textset-tit">MY Projects</h2>
-                        <p class="textset-desc"> </p>
-                    </div>
-                    <div class="contents-cardset">
-                        <a href="javascript:void(0);" class="cardset cardset-inner cardset-hover cardset-border">
-                            <div class="cardset-cont">
-                                <h2 class="cardset-tit">Project Name</h2>
-                                <p class="cardset-desc"> Field <br>Technologies Used in the Project </p>
-                                <span class="cardset-txt"> 추천수 : 54 조회수 : 120 댓글수 : 27 <br> 2024. 01. 01</span>
-                            </div>
-                        </a>
-                        <a href="javascript:void(0);" class="cardset cardset-inner cardset-hover cardset-border">
-                            <div class="cardset-cont">
-                                <h2 class="cardset-tit">Project Name</h2>
-                                <p class="cardset-desc"> Field <br>Technologies Used in the Project </p>
-                                <span class="cardset-txt"> 추천수 : 54 조회수 : 120 댓글수 : 27 <br>2024. 01. 01</span>
-                            </div>
-                        </a>
-                        <a href="javascript:void(0);" class="cardset cardset-inner cardset-hover cardset-border">
-                            <div class="cardset-cont">
-                                <h2 class="cardset-tit">Project Name</h2>
-                                <p class="cardset-desc"> Field <br>Technologies Used in the Project </p>
-                                <span class="cardset-txt"> 추천수 : 54 조회수 : 120 댓글수 : 27 <br> 2024. 01. 01</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="contents-inner">
-                <div class="contents-btn">
-                    <a href="javascript:void(0);" class="btnset btnset-icon icon-left icon-more" onclick="window.location='./projects_plus';">더보기</a>
-                </div>
-            </div>
-            <div class="contents-container">
-                <div class="contents-bottom container-md">
-                    <div class="textset">
-                        <h2 class="textset-tit">MY Discussions</h2>
-                        <p class="textset-desc"> </p>
-                    </div>
-                    <div class="contents-cardset">
-                        <a href="javascript:void(0);" class="cardset cardset-inner cardset-hover cardset-border">
-                            <div class="cardset-cont">
-                                <h2 class="cardset-tit">Discussion Name</h2>
-                                <p class="cardset-desc"> Field <br>Technologies Used in the Discussion </p>
-                                <span class="cardset-txt"> 추천수 : 54 조회수 : 120 댓글수 : 27 <br> 2024. 01. 01</span>
-                            </div>
-                        </a>
-                        <a href="javascript:void(0);" class="cardset cardset-inner cardset-hover cardset-border">
-                            <div class="cardset-cont">
-                                <h2 class="cardset-tit">Discussion Name</h2>
-                                <p class="cardset-desc"> Field <br>Technologies Used in the Discussion </p>
-                                <span class="cardset-txt"> 추천수 : 54 조회수 : 120 댓글수 : 27 <br>2024. 01. 01</span>
-                            </div>
-                        </a>
-                        <a href="javascript:void(0);" class="cardset cardset-inner cardset-hover cardset-border">
-                            <div class="cardset-cont">
-                                <h2 class="cardset-tit">Discussion Name</h2>
-                                <p class="cardset-desc"> Field <br>Technologies Used in the Discussion </p>
-                                <span class="cardset-txt"> 추천수 : 54 조회수 : 120 댓글수 : 27 <br> 2024. 01. 01</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="contents-inner">
-                        <div class="contents-btn">
-                            <a href="javascript:void(0);" class="btnset btnset-icon icon-left icon-more" onclick="window.location='./discussions_plus';">더보기</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- [E]basic-N9 -->
     </main>
     <!-- [S]basic-N4 -->
     <footer class="basic-N4" data-bid="Drm39T24D8">
@@ -218,7 +184,7 @@
                 </div>
                 <div class="footer-bottom">
                     <div class="footer-txt">
-                        <p> (49315) 부산 사하구 낙동대로550번길 37 동아대학교 컴퓨터공학과 S06 </p>
+                        <p> (49315) 부산 사하구 낭동대로550번길 37 동아대학교 컴터퍼과학과 S06 </p>
                         <p>
                             <span>T. 051-200-7776</span>
                             <span>E. help@givememoney.co.kr</span>
@@ -232,5 +198,8 @@
         </div>
     </footer>
     <!-- [E]basic-N4 -->
+
     <script src="js/auth.js"></script>
 </body>
+
+</html>

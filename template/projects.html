@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/template.css">
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -75,23 +76,6 @@
             <div class="contents-container container-md">
                 <div class="textset">
                     <h2 class="textset-tit">Projects</h2>
-                    <!-- 이부분도 안씀.  -->
-                    <!-- <p class="textset-desc">
-                        <div class="filters">
-                            <select id="tech-filter">
-                                <option value="all">Language Categories</option>
-                                <option value="javascript">JavaScript</option>
-                                <option value="python">Python</option>
-                                <option value="java">Java</option>
-                            </select>
-                            <select id="field-filter">
-                                <option value="all">Technology Categories</option>
-                                <option value="web">Web</option>
-                                <option value="mobile">Mobile</option>
-                                <option value="data">Data</option>
-                            </select>
-                        </div>
-                    </p> -->
                     <div class="create-btn">
                         <a href="javascript:void(0);" class="btnset btnset-icon icon-left icon-more" onclick="window.location='./create_project';">Create a project</a>
                     </div>
@@ -101,7 +85,9 @@
                                 <th>No</th>
                                 <th>Title</th>
                                 <th>Name</th>
-                                <th>Like</th>
+                                <th style="text-align: center;">
+                                    <i style="font-size: 16px; color: #000e1d;" class="fa fa-thumbs-up"></i>
+                                </th>
                                 <th>View</th>
                                 <th>Comment</th>
                                 <th>Date</th>

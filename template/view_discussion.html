@@ -17,7 +17,7 @@
         <div class="header-inner">
             <div class="header-container container-lg">
                 <h1 class="header-title">
-                    <a href="javascript:void(0)" onclick="window.location='./index.html';">
+                    <a href="javascript:void(0)" onclick="window.location='./';">
                         <img src="images/donga_logo_b.png" alt="로고">
                     </a>
                 </h1>
@@ -29,7 +29,7 @@
                     </div>
                     <ul class="header-gnblist">
                         <li class="header-gnbitem">
-                            <a class="header-gnblink" href="javascript:void(0)" onclick="window.location='./index';">
+                            <a class="header-gnblink" href="javascript:void(0)" onclick="window.location='./';">
                                 <span>Home</span>
                             </a>
                         </li>
@@ -75,41 +75,151 @@
         <div class="basic-N6" data-bid="NWm39T23XR">
             <div class="contents-container container-md">
                 <div class="textset">
-                    <h2 class="textset-tit">Writer Name</h2>
+                    <h2 class="textset-tit"> <%= discussion.username %> </h2>
                     <p class="textset-desc">
                         <div class="contents-cardset">
                             <a class="cardset cardset-inner cardset-hover cardset-border">
                                 <div class="cardset-cont">
-                                    <h2 class="cardset-tit">Discussion Name</h2>
-                                    <p class="cardset-desc"> Field <br>Technologies Used in the Project </p>
-                                    <p> A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z<br>
-                                        a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z<br>
-                                        ㄱ, ㄲ, ㄴ, ㄷ, ㄸ, ㄹ, ㅁ, ㅂ, ㅃ, ㅅ, ㅆ, ㅇ, ㅈ, ㅉ, ㅊ, ㅋ, ㅌ, ㅍ, ㅎ</p>
+                                    <h2 class="cardset-tit"> <%= discussion.title %> </h2>
+                                    <p> <%= discussion.content %> </p>
                                     <br>
-                                    <span class="cardset-txt"> 추천수 : 54 조회수 : 120 댓글수 : 27 <br> 2024. 01. 01</span>
+                                    <span class="cardset-txt"> 추천수 : <%= discussion.likes %> 조회수 : <%= discussion.views %> 댓글수 : <%= discussion.comments %> <br> <%= discussion.date %></span>
                                 </div>
                             </a>
                         </div>
                     </p>
-
-                    <!-- omment thread -->
-                    <div class="threads">
-                        <div class="thread">
-                            <h3>name</h3>
-                            <button type="submit" class="reply-btn" href="javascript:void(0)" onclick="window.location='./.html';">댓글 달기</button>
-                            <textarea class="comment_create"></textarea>
-                        </div>
-                        <div class="thread">
-                            <h3>name</h3>
-                            <p>Text</p>
-                        </div>
-                        <div class="thread">
-                            <h3>name</h3>
-                            <p>Text</p>
-                        </div>
+                    <!-- 좋아요 버튼 -->
+                    <a class="btnset btnset-round" href="javascript:void(0)" id="like-btn">Like</a>
+                    <div id="popup" class="popup" style="display: none;">
+                        <p id="popup-message"></p>
+                        <button onclick="closePopup()">OK</button>
                     </div>
+
+                    <script>
+                        document.getElementById('like-btn').addEventListener('click', async () => {
+                            const discussionId = "<%= discussion.id %>"; // 서버에서 전달된 프로젝트 ID
+                
+                            try {
+                                const response = await fetch('/like_discussion', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({ id: discussionId })
+                                });
+                
+                                const data = await response.json();
+                                if (response.ok) {
+                                    showPopup(data.message); // 성공 메시지
+                                } else {
+                                    showPopup(data.message); // 에러 메시지
+                                }
+                            } catch (error) {
+                                console.error('좋아요 처리 중 에러:', error);
+                                showPopup('An error occurred while processing your request.');
+                            }
+                        });
+                
+                        function showPopup(message) {
+                            const popup = document.getElementById('popup');
+                            const popupMessage = document.getElementById('popup-message');
+                            popupMessage.innerText = message;
+                            popup.style.display = 'block';
+                        }
+                
+                        function closePopup() {
+                            const popup = document.getElementById('popup');
+                            popup.style.display = 'none';
+                        }
+                    </script>
+
+                    <!-- 댓글 작성 폼 -->
+                    <div class="thread">
+                        <h3>댓글 작성</h3>
+                        <textarea class="comment_create" id="comment-content" placeholder="댓글을 작성하세요"></textarea>
+                        <button type="submit" class="reply-btn" onclick="submitComment('<%= discussion.id %>')">댓글 달기</button>
+                    </div>
+
+                    <!-- 팝업 -->
+                    <div id="popup" class="popup" style="display: none;">
+                        <p id="popup-message"></p>
+                        <button onclick="closePopup()">OK</button>
+                    </div>
+
+                    <!-- 댓글 목록 -->
+                    <div id="comment-list">
+                        <% if (comments && comments.length > 0) { %>
+                            <% comments.forEach(comment => { %>
+                                <div class="thread">
+                                    <h3><%= comment.username %> <span>(<%= comment.date %>)</span></h3>
+                                    <p><%= comment.content %></p>
+                                </div>
+                            <% }) %>
+                        <% } %>
+                    </div>
+
+                    <script>
+                        async function submitComment(discussionId) {
+                            const content = document.getElementById('comment-content').value;
+                    
+                            if (!content.trim()) {
+                                showPopup('댓글 내용을 입력해주세요!');
+                                return;
+                            }
+                    
+                            try {
+                                const response = await fetch('/add_discussion_comment', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({ content, discussionId })
+                                });
+                    
+                                const data = await response.json();
+                    
+                                if (response.ok) {
+                                    showPopup('댓글이 성공적으로 추가되었습니다!');
+                                    addCommentToList(data.comment); // 댓글 목록에 추가
+                                } else {
+                                    showPopup(data.message || '댓글 추가에 실패했습니다.');
+                                }
+                            } catch (error) {
+                                console.error('댓글 추가 중 에러:', error);
+                                showPopup('댓글 추가 중 문제가 발생했습니다.');
+                            }
+                        }
+                    
+                        function showPopup(message) {
+                            const popup = document.getElementById('popup');
+                            const popupMessage = document.getElementById('popup-message');
+                            popupMessage.innerText = message;
+                            popup.style.display = 'block';
+                        }
+                    
+                        function closePopup() {
+                            const popup = document.getElementById('popup');
+                            popup.style.display = 'none';
+                        }
+                    
+                        function addCommentToList(comment) {
+                            const commentList = document.getElementById('comment-list');
+                            const commentElement = document.createElement('div');
+                            commentElement.className = 'thread';
+                            commentElement.innerHTML = `
+                                <h3>${comment.username} <span>(${comment.created_at})</span></h3>
+                                <p>${comment.content}</p>
+                            `;
+                            commentList.appendChild(commentElement);
+                            document.getElementById('comment-content').value = ''; // 입력 폼 초기화
+                        }
+                    </script>
+
+
+
+
                     <div class="contents-btn">
-                        <a class="btnset btnset-round" href="javascript:void(0)" onclick="window.location='./discussions';">BACK</a>
+                        <a class="btnset btnset-round" href="javascript:void(0)" onclick="window.location='./projects';">BACK</a>
                     </div>
                     <table class="plus_create">
 

@@ -76,7 +76,7 @@
             <div class="contents-container container-md">
                 <div class="textset">
                     <h2 class="textset-tit">Discussions</h2>
-                    <p class="textset-desc">
+                    <!-- <p class="textset-desc">
                         <div class="filters" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                             <select id="tech-filter" style="margin-right: 10px;">
                                 <option value="all">Language Categories</option>
@@ -93,13 +93,14 @@
                             <a href="javascript:void(0);" class="btnset btnset-round" style="padding: 7px 5px; height: auto; " onclick="window.location='./create_discussion';">Create a Discussion</a>
                             <a href="javascript:void(0);" class="btnset btnset-icon icon-left icon-more" style="padding: 7px 5px; height: auto; " onclick="window.location='./discussions_plus';">더보기</a>
                         </div>
-                    </p>
+                    </p> -->
+                    <div class="create-btn">
+                        <a href="javascript:void(0);" class="btnset btnset-icon icon-left icon-more" onclick="window.location='./create_discussion';">Create Disccusion</a>
+                    </div>
                     <table class="plus_create">
                         <thead>
                             <tr>
                                 <th>Discussion Name</th>
-                                <th>Language Type</th>
-                                <th>Technology</th>
                                 <th style="text-align: center;">
                                     <i style="font-size: 16px; color: #000e1d;" class="fa fa-thumbs-up"></i>
                                 </th>
@@ -109,24 +110,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr onclick="window.location='./view_discussion';">
-                                <td>Discussion Name</td>
-                                <td>Language Type</td>
-                                <td>Technology</td>
-                                <td>Like</td>
-                                <td>View</td>
-                                <td>Comment</td>
-                                <td>Date</td>
-                            </tr>
-                            <tr>
-                                <td>Discussion Name</td>
-                                <td>Language Type</td>
-                                <td>Technology</td>
-                                <td>Like</td>
-                                <td>View</td>
-                                <td>Comment</td>
-                                <td>Date</td>
-                            </tr>
+                            <% (discussions || []).forEach(discussion => { %>
+                                <tr href="javascript:void(0);" onclick="window.location='./view_discussion?id=<%= discussion.id %>';">
+                                    <td><%= discussion.title %></td>
+                                    <td><%= discussion.likes %></td>
+                                    <td><%= discussion.views %></td>
+                                    <td><%= discussion.comments %></td>
+                                    <td><%= discussion.date %></td>
+                                </tr>
+                            <% }) %>
                         </tbody>
                     </table>
                     <a>이전 | 다음</a>

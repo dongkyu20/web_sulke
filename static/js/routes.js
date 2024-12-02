@@ -66,13 +66,6 @@ module.exports = function (app, session, isAuthenticated) {
         console.error('프로젝트 조회 중 에러:', error);
         res.status(500).send('서버 에러가 발생했습니다.');
     }
-    //   const projectDetails = {
-    //       id: 1,
-    //       title: "Project A",
-    //       description: "Detailed Description of Project A",
-    //       created_at: "2024-01-01", 
-    //       username: "User123"
-    //   };
   });
 
   //좋아요 기능 -> 계정당 한번만 할 수 있음.
@@ -112,7 +105,7 @@ module.exports = function (app, session, isAuthenticated) {
     }
 });
 
-//댓글 추가
+//프로젝트 댓글 추가
 app.post('/add_comment', isAuthenticated, async (req, res) => {
     const { content, projectId } = req.body;
     const { username, user_id } = req.session.user;
@@ -182,17 +175,6 @@ app.get('/download', isAuthenticated, async (req, res) => {
     }
 });
 
-  //여기는 인쓰는 부분이 됨.
-//   app.get('/projects_plus', isAuthenticated, async (req, res) => {
-//       try {
-//         const [projects] = await db.execute("SELECT id, title, username,likes, views, (select count(*) from comments where comments.post_id = posts.id) as comments, date_format(created_at, '%Y-%m-%d') as date from posts order by created_at DESC");
-//         res.render('template/projects_plus.html', { projects });
-//       } catch (error) {
-//           console.error("프로젝트 목록을 가져오는 중 에러:", error);
-//           res.status(500).send("서버 에러");
-//       }
-//   });
-
   app.get('/create_project', isAuthenticated, async (req, res) => {
     const { username, id: user_id} = req.session.user;
 
@@ -208,16 +190,6 @@ app.get('/download', isAuthenticated, async (req, res) => {
     const { title, content, tags } = req.body;
     const { username, user_id } = req.session.user;
     const file_path = req.file ? req.file.path : null;
-
-    console.log("debug용 출력", {
-        title,
-        category: "프로젝트",
-        content,
-        file_path,
-        tags,
-        username,
-        user_id
-    });
     
     try {
         // DB에 데이터 삽입
@@ -234,29 +206,138 @@ app.get('/download', isAuthenticated, async (req, res) => {
 
   })
   
-  
 
-  app.get('/create_discussion', function (req, res) {
-      res.render('template/create_discussion.html');
+  app.get('/create_discussion', isAuthenticated, function (req, res) {
+    const { username, id: user_id} = req.session.user;
+    try {
+        res.render('template/create_discussion.html', { username, user_id });
+    } catch (error) {
+        console.error("의견 생성 중 에러:", error);
+        res.status(500).send("서버 에러");
+    }
   });
 
-  app.get('/discussions', isAuthenticated, (req, res) => {
-      const discussions = [
-          { id: 1, title: "Discussion A", username: "User1", created_at: "2024-01-01" },
-          { id: 2, title: "Discussion B", username: "User2", created_at: "2024-01-02" },
-          { id: 3, title: "Discussion C", username: "User3", created_at: "2024-01-03" }
-      ];
+  app.post('/create_discussion', isAuthenticated, async (req, res)=> {
+    const { title, content } = req.body;
+    const { username, user_id } = req.session.user;
 
-      res.render('template/discussions.html', { discussions });
+    try {
+        // DB에 데이터 삽입
+        await db.execute(
+            "INSERT INTO discussion (title, content, username, user_id) VALUES (?, ?, ?, ?)",
+            [title, content, username, user_id]
+        );
+
+        res.redirect('/discussions');
+    } catch (error) {
+        console.error("의견 생성 중 에러:", error);
+        res.status(500).send("서버 에러");
+    }
+
+  })
+
+  app.get('/discussions', isAuthenticated, async (req, res) => {
+    try{
+        const [discussions] = await db.execute("SELECT id, title, likes, views, (select count(*) from discussion_comments where discussion_comments.discussion_id = discussion.id) as comments, date_format(created_at, '%Y-%m-%d') as date from discussion order by created_at DESC");
+        res.render('template/discussions.html', { discussions });
+    } catch (error){
+        console.error("프로젝트 목록을 가져오는 중 에러:", error);
+        res.status(500).send("서버 에러");
+    }
   });
 
-  app.get('/discussions_plus', function (req, res) {
-      res.render('template/discussions_plus.html');
-  });
+app.get('/view_discussion', isAuthenticated, async (req, res) => {
+  const discussionId = req.query.id;
+  if (!discussionId) {
+      return res.status(400).send('잘못된 접근입니다.');
+  }
+  try {
+      // 조회수 증가
+      await db.execute('UPDATE discussion SET views = views + 1 WHERE id = ?', [discussionId]);
+      const [rows] = await db.execute("SELECT id, title, content, likes, views, (select count(*) from discussion_comments where discussion_comments.discussion_id = discussion.id) as comments, date_format(created_at, '%Y-%m-%d') as date, username from discussion where id = ? ", [discussionId]);
+      if (rows.length === 0) {
+          return res.status(404).send('Discussion not found');
+      }
 
-  app.get('/view_discussion', function (req, res) {
-      res.render('template/view_discussion.html');
-  });
+      const [commentRows] = await db.execute(`SELECT username, content, DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') AS date FROM discussion_comments WHERE discussion_id = ? ORDER BY created_at ASC`,[discussionId]);
+
+      res.render('template/view_discussion.html', { discussion: rows[0], comments: commentRows });
+  } catch (error) {
+      console.error('프로젝트 조회 중 에러:', error);
+      res.status(500).send('서버 에러가 발생했습니다.');
+  }
+});
+
+
+  //discussion 댓글 추가
+app.post('/add_discussion_comment', isAuthenticated, async (req, res) => {
+    const { content, discussionId } = req.body;
+    const { username, user_id } = req.session.user;
+
+    if (!content || !discussionId) {
+        return res.status(400).send({ message: 'Content and Discussion ID are required' });
+    }
+
+    try {
+        const [result] = await db.execute(
+            `INSERT INTO discussion_comments (discussion_id, user_id, username, content) VALUES (?, ?, ?, ?)`,
+            [discussionId, user_id, username, content]
+        );
+
+        const [newComment] = await db.execute(
+            `SELECT 
+                username, 
+                content, 
+                DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') AS created_at 
+             FROM discussion_comments 
+             WHERE id = ?`,
+            [result.insertId]
+        );
+
+        res.status(200).send({ message: '댓글이 추가되었습니다.', comment: newComment[0] });
+    } catch (error) {
+        console.error('댓글 추가 중 에러:', error);
+        res.status(500).send({ message: '서버 에러가 발생했습니다.' });
+    }
+});
+
+//좋아요 기능 -> 계정당 한번만 할 수 있음.
+app.post('/like_discussion', isAuthenticated, async (req, res) => {
+    const discussion_Id = req.body.id;
+    const userId = req.session.user.id;
+
+    if (!discussion_Id) {
+        console.error('No Discussion ID provided');
+        return res.status(400).json({ message: '잘못된 접근입니다.' });
+    }
+
+    try {
+        const [existingLike] = await db.execute(
+            'SELECT * FROM discussion_likes WHERE user_id = ? AND discussion_id = ?',
+            [userId, discussion_Id]
+        );
+
+        if (existingLike.length > 0) {
+            return res.status(400).json({ message: '계정당 좋아요는 한번만 가능합니다.' });
+        }
+
+        await db.execute(
+            'INSERT INTO discussion_likes (user_id, discussion_id) VALUES (?, ?)',
+            [userId, discussion_Id]
+        );
+
+        await db.execute(
+            'UPDATE discussion SET likes = likes + 1 WHERE id = ?',
+            [discussion_Id]
+        );
+
+        return res.status(200).json({ message: '좋아요!!!!' });
+    } catch (error) {
+        console.error('좋아요 처리 중 에러:', error);
+        return res.status(500).json({ message: '서버 에러가 발생했습니다.' });
+    }
+});
+
 
   app.get('/index', function (req, res) {
       res.render('template/index.html');
@@ -315,32 +396,4 @@ app.get('/download', isAuthenticated, async (req, res) => {
         res.status(500).json({ error: "서버 에러" });
     }
 });
-
-  // 로그인을 처리하는 라우트 추가
-  app.post('/login/auth', async (req, res) => {
-      const { username, password } = req.body;
-
-      // 테스트용
-      if (username === "test" && password === "123") {
-          req.session.isLoggedIn = true;
-          req.session.user = { id: 1, username };
-          res.json({ message: '로그인 성공' });
-      } else {
-          res.json({ message: '로그인 실패' });
-      }
-  });
-
-//   // 로그인을 처리하는 라우트 추가
-//   app.post('/login/auth', async (req, res) => {
-//       const { username, password } = req.body;
-
-//       // 테스트용
-//       if (username === "testUser" && password === "password123") {
-//           req.session.isLoggedIn = true;
-//           req.session.user = { id: 1, username };
-//           res.json({ message: '로그인 성공' });
-//       } else {
-//           res.json({ message: '로그인 실패' });
-//       }
-//   });
 }

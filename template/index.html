@@ -55,10 +55,6 @@
                     </div>
                     <div class="header-utils">
                         <button class="sidebar-search-btn" onclick="toggleSidebar()"><i class="fa fa-search"></i></button>
-                        
-                        <button class="btn-momenu" onclick="toggleSidebar()">
-                            <img src="icons/ico_menu_black.svg" alt="모바일메뉴 아이콘">
-                        </button>
                     </div>
                 </div>
             </div>
@@ -84,7 +80,6 @@
                                 <a class="btnset btnset-round" href="javascript:void(0)" onclick="window.location='./login';">로그인</a>
                             </div>
                         </div>
-                        <!-- 로그인 상태일 때 -->
                         <div class="basic-N9" data-bid="SoM39T248O" id="projectsSlide" style="display: none;">
                             <div class="contents-slide-group container-md">
                                 <div class="contents-bottom container-md">
@@ -152,7 +147,7 @@
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
             const headerRight = document.querySelector('.header-right');
-
+    
             if (sidebar) {
                 const isClosed = sidebar.getAttribute('data-state') === 'closed';
                 sidebar.setAttribute('data-state', isClosed ? 'open' : 'closed');
@@ -172,21 +167,63 @@
                 newSidebar.style.zIndex = '1000';
                 newSidebar.style.padding = '20px';
                 newSidebar.innerHTML = `
-                    <input type="text" placeholder="Search..." class="sidebar-search">
-                    <button class="sidebar-search-btn">검색</button>
+                    <form id="sidebarSearchForm" onsubmit="searchProjects(event)">
+                        <div class="search-container">
+                            <input type="text" id="searchQuery" placeholder="Search..." class="sidebar-search">
+                            <button type="submit" class="sidebar-search-btn">검색</button>
+                        </div>
+                    </form>
+                    <div id="searchResults" class="search-results"></div>
                 `;
                 document.body.insertBefore(newSidebar, document.querySelector('main'));
                 headerRight.style.transform = 'translateX(-300px)';
             }
         }
+    
+        async function searchProjects(event) {
+            event.preventDefault();
+            const searchQuery = document.getElementById('searchQuery').value;
+    
+            if (searchQuery) {
+                try {
+                    // 서버로 검색 요청 보내기
+                    const response = await fetch(`/projects/search?query=${encodeURIComponent(searchQuery)}`);
+                    const projects = await response.json();
+    
+                    // 검색 결과 표시
+                    const searchResultsDiv = document.getElementById('searchResults');
+                    searchResultsDiv.innerHTML = ''; // 이전 검색 결과 제거
+    
+                    if (projects.length > 0) {
+                        projects.forEach(project => {
+                            const projectItem = document.createElement('div');
+                            projectItem.className = 'search-result-item';
+                            projectItem.innerHTML = `
+                                <h3>${project.title}</h3>
+                                <p>작성자: ${project.username}</p>
+                                <p>추천수: ${project.likes}, 조회수: ${project.views}, 댓글수: ${project.comments}</p>
+                                <a href="javascript:void(0);" onclick="window.location='./view_project?id=${project.id}'">자세히 보기</a>
+                            `;
+                            searchResultsDiv.appendChild(projectItem);
+                        });
+                    } else {
+                        searchResultsDiv.innerHTML = '<p>검색 결과가 없습니다.</p>';
+                    }
+                } catch (error) {
+                    console.error('검색 중 에러:', error);
+                    document.getElementById('searchResults').innerHTML = '<p>검색 중 에러가 발생했습니다.</p>';
+                }
+            }
+        }
     </script>
+
     <style>
         .sidebar {
             transition: all 0.3s ease;
         }
 
         .sidebar-search {
-            width: calc(100% - 60px);
+            width: calc(100% - 100px);
             padding: 10px;
             border: 1px solid #cccccc;
             border-radius: 5px;

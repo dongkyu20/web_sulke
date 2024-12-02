@@ -76,29 +76,34 @@
                 <div class="textset">
                     <h2 class="textset-tit">Create Project</h2>
                     <p class="textset-desc">
-                        <form action="/create_project" method="POST">
-                            <div class="filters">
+                        <form action="/create_project" method="POST" enctype="multipart/form-data">
+                            <!-- 이 부분 안씁니당 -->
+                            <!-- <div class="filters">
                                 <select name="techFilter" id="tech-filter" required>
                                     <option value="">Language Categories</option>
                                     <option value="javascript">JavaScript</option>
                                     <option value="python">Python</option>
                                     <option value="java">Java</option>
-                                    <!-- 추가 기술 -->
                                 </select>
                                 <select name="fieldFilter" id="field-filter" required>
                                     <option value="">Technology Categories</option>
                                     <option value="web">Web</option>
                                     <option value="mobile">Mobile</option>
                                     <option value="data">Data</option>
-                                    <!-- 추가 분야 -->
                                 </select>
-                            </div>
+                            </div> -->
                         
                             <label for="title">- Title -</label>
                             <input type="text" id="title" name="title" required><br><br>
                         
                             <label for="content">- Content -</label><br>
                             <textarea id="content" name="content" rows="4" cols="50" required></textarea><br><br>
+
+                            <label for="file">- Upload File -</label>
+                            <input type="file" id="file" name="file"><br><br>
+    
+                            <label for="tags">- Tags -</label>
+                            <input type="text" id="tags" name="tags" required><br><br>
                         
                             <div class="contents-btn">
                                 <button type="submit" class="btnset btnset-round">OK</button>

@@ -17,7 +17,7 @@
         <div class="header-inner">
             <div class="header-container container-lg">
                 <h1 class="header-title">
-                    <a href="javascript:void(0)" onclick="window.location='./';">
+                    <a href="javascript:void(0)" onclick="window.location='./index';">
                         <img src="images/donga_logo_b.png" alt="로고">
                     </a>
                 </h1>
@@ -76,36 +76,19 @@
                 <div class="textset">
                     <h2 class="textset-tit">Create Discussion</h2>
                     <p class="textset-desc">
-                        <form action="/submit" method="POST">
-
-                            <div class="filters">
-                                <select id="tech-filter">
-                                    <option value="all">Language Categories</option>
-                                    <option value="javascript">JavaScript</option>
-                                    <option value="python">Python</option>
-                                    <option value="java">Java</option>
-                                    <!-- 추가 기술 -->
-                                </select>
-                                <select id="field-filter">
-                                    <option value="all">Technology Categories</option>
-                                    <option value="web">Web</option>
-                                    <option value="mobile">Mobile</option>
-                                    <option value="data">Data</option>
-                                    <!-- 추가 분야 -->
-                                </select>
+                        <form action="/create_discussion" method="POST">
+                            <label for="title">- Title -</label>
+                            <input type="text" id="title" name="title" required><br><br>
+                        
+                            <label for="content">- Content -</label><br>
+                            <textarea id="content" name="content" rows="4" cols="50" required></textarea><br><br>
+                        
+                            <div class="contents-btn">
+                                <button type="submit" class="btnset btnset-round">OK</button>
+                                <a class="btnset btnset-round" href="./discussions">BACK</a>
                             </div>
+                        </form>
                     </p>
-                    <label for="title">- Title -</label>
-                    <input type="text" id="title" name="title" required><br><br>
-
-                    <label for="content">- Content -</label><br>
-                    <textarea id="content" name="content" rows="4" cols="50" required></textarea><br><br>
-
-                    <div class="contents-btn">
-                        <button type="submit" class="btnset btnset-round" href="javascript:void(0)" onclick="window.location='./discussions';">OK</button>
-                        <a class="btnset btnset-round" href="javascript:void(0)" onclick="window.location='./discussions';">BACK</a>
-                    </div>
-                    </form>
                 </div>
             </div>
         </div>
@@ -176,7 +159,7 @@
             </div>
         </div>
     </footer>
-    <!-- [E]basic-N4 -->
+    <!-- [E]basic-N4 -->     
     <script src="js/auth.js"></script>
 
 </body>
